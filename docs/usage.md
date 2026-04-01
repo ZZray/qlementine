@@ -18,7 +18,7 @@ Qlementine supports Qt5 and Qt6 from the same codebase. When configuring CMake, 
    target_link_libraries(your_project qlementine)
    ```
 
-If you are building the examples, `sandbox` works with Qt5 and Qt6, while `showcase` currently requires Qt6 because `qlementine-icons` is still Qt6-only.
+If you are building the examples, both `sandbox` and `showcase` work with Qt5 and Qt6. The repository now vendors the `qlementine-icons` target, so the examples no longer need to fetch that dependency separately.
 
 ## Usage in code
 

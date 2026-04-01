@@ -1,17 +1,5 @@
 set(SHOWCASE_NAME "showcase")
 
-# Dependency: qlementine-icons
-include(FetchContent)
-FetchContent_Declare(qlementine-icons
-  GIT_REPOSITORY "https://github.com/oclero/qlementine-icons.git"
-  GIT_TAG v1.12.0
-)
-FetchContent_MakeAvailable(qlementine-icons)
-set_target_properties(qlementine-icons
-  PROPERTIES
-    FOLDER dependencies
-)
-
 if(APPLE)
   set(APP_ICON_MACOS "${CMAKE_SOURCE_DIR}/branding/icon/icon.icns")
   set_source_files_properties(${APP_ICON_MACOS}
@@ -31,6 +19,10 @@ add_executable(${SHOWCASE_NAME}
   WIN32 MACOSX_BUNDLE
   ${SOURCES}
 )
+
+if(NOT TARGET qlementine-icons)
+  message(FATAL_ERROR "showcase requires the vendored qlementine-icons target. Enable QLEMENTINE_ICONS.")
+endif()
 
 target_link_libraries(${SHOWCASE_NAME}
   PUBLIC

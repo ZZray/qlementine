@@ -54,7 +54,7 @@ This library contains:
 
 See [documentation](docs/usage.md) for details. Basically, you just need to add Qlementine as a dependency with CMake, and call `QApplication::setStyle`.
 
-The core library and `sandbox` example support Qt5 and Qt6. The `showcase` target remains Qt6-only for now because it depends on `qlementine-icons`, which does not currently provide a Qt5-compatible CMake build.
+The core library, the vendored `qlementine-icons` target, and the `sandbox` and `showcase` examples now build from the same Qt5/Qt6-compatible codebase.
 
 ## Creator
 

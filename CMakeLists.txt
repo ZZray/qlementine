@@ -16,6 +16,7 @@ include(GNUInstallDirs)
 # Build options.
 option(QLEMENTINE_SANDBOX "Build the sandbox application." ON)
 option(QLEMENTINE_SHOWCASE "Build the showcase application." ON)
+option(QLEMENTINE_ICONS "Build the vendored qlementine-icons library." ON)
 
 # Accept both Qt root paths and lib/cmake/Qt{5,6} paths on Windows.
 if(WIN32 AND CMAKE_PREFIX_PATH)
@@ -53,15 +54,12 @@ if(QT_VERSION_MAJOR EQUAL 6)
   qt_standard_project_setup()
 endif()
 
-if(QLEMENTINE_SHOWCASE AND QT_VERSION_MAJOR LESS 6)
-  message(WARNING
-    "QLEMENTINE_SHOWCASE requires qlementine-icons, which is currently Qt6-only. "
-    "The showcase target will be disabled for this Qt5 build.")
-  set(QLEMENTINE_SHOWCASE OFF)
-endif()
-
 # The library.
 add_subdirectory(lib)
+
+if(QLEMENTINE_ICONS OR QLEMENTINE_SHOWCASE)
+  add_subdirectory(icons)
+endif()
 
 # Example apps using the lib.
 if(QLEMENTINE_SANDBOX)

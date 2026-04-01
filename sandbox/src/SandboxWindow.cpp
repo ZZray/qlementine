@@ -259,6 +259,39 @@ struct SandboxWindow::Impl {
     owner.setCentralWidget(globalScrollArea);
   }
 
+  void setupDefaultShowcase() {
+    setupUI_menuBar();
+    setupUI_label();
+    setupUI_button();
+    setupUI_buttonVariants();
+    setupUI_checkbox();
+    setupUI_radioButton();
+    setupUI_commandLinkButton();
+    setupUI_sliderAndProgressBar();
+    setupUI_sliderWithTicks();
+    setupUI_lineEdit();
+    setupUI_plainTextEdit();
+    setupUI_spinBox();
+    setupUI_comboBox();
+    setupUI_comboBoxVariants();
+    setupUI_dateTimeEdit();
+    setupUI_toolButton();
+    setupUI_toolButtonsVariants();
+    setupUI_tabBar();
+    setupUI_tabWidget();
+    setupUI_groupBox();
+    setupUI_listView();
+    setupUI_treeWidget();
+    setupUI_table();
+    setupUI_navigationBar();
+    setupUI_switch();
+    setupUI_badge();
+    setupUI_colorButton();
+    setupUI_loadingSpinner();
+    setupUI_notificationBadge();
+    setupUI_contextMenu();
+  }
+
   void setupUI_toolBar() {
     auto addToolBarIcon = [](QToolBar* toolbar, int btnNum = 1) {
       const auto icon = getTestQIcon();
@@ -1858,58 +1891,7 @@ SandboxWindow::SandboxWindow(ThemeManager* themeManager, QWidget* parent)
   setWindowIcon(QIcon(QStringLiteral(":/sandbox/qlementine_icon.ico")));
 
   _impl->beginSetupUI();
-  {
-    // Uncomment the line to show the corresponding widget.
-    // _impl->setupUI_label();
-    // _impl->setupUI_button();
-    // _impl->setupUI_buttonVariants();
-    // _impl->setupUI_checkbox();
-    // _impl->setupUI_radioButton();
-    // _impl->setupUI_commandLinkButton();
-    // _impl->setupUI_sliderAndProgressBar();
-    // _impl->setupUI_sliderWithTicks();
-    // _impl->setupUI_lineEdit();
-    // _impl->setupUI_textEdit();
-    // _impl->setupUI_plainTextEdit();
-    // _impl->setupUI_dial();
-    // _impl->setupUI_spinBox();
-    // _impl->setupUI_comboBox();
-    // _impl->setupUI_comboBoxVariants();
-    // _impl->setupUI_comboBoxWithTreeView();
-    // _impl->setupUI_fontComboBox();
-    // _impl->setupUI_listView();
-    // _impl->setupUI_treeWidget();
-    // _impl->setupUI_table();
-    // _impl->setupUI_menuBar();
-    // _impl->setupUI_toolButton();
-    // _impl->setupUI_toolButtonsVariants();
-    // _impl->setupUI_tabBar();
-    // _impl->setupUI_tabWidget();
-    // _impl->setupUI_groupBox();
-    // _impl->setupUI_treeView();
-    // _impl->setupUI_focus();
-    // _impl->setupUI_specialProgressBar();
-    // _impl->setupUI_lineEditStatus();
-    // _impl->setupUI_dateTimeEdit();
-    // _impl->setupUI_contextMenu();
-
-    // _impl->setupUI_switch();
-    // _impl->setupUI_expander();
-    // _impl->setupUI_popover();
-    // _impl->setupUI_navigationBar();
-    // _impl->setupUI_badge();
-    // _impl->setupUI_colorButton();
-    // _impl->setupUI_messageBoxIcons();
-    // _impl->setupUI_loadingSpinner();
-    // _impl->setupUI_aboutDialog();
-    // _impl->setupUI_notificationBadge();
-
-    // _impl->setupUI_fontMetricsTests();
-    // _impl->setupUI_blur();
-    // _impl->setupUI_themeEditor();
-    // _impl->setupUI_messageBox();
-    // _impl->setupUI_toolBar();
-  }
+  _impl->setupDefaultShowcase();
   _impl->endSetupUI();
   oclero::qlementine::centerWidget(this);
 }

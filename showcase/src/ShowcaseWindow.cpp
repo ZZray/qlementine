@@ -56,6 +56,8 @@
 #include <QPlainTextEdit>
 
 #include <random>
+#include <type_traits>
+#include <utility>
 
 namespace oclero::qlementine::showcase {
 using Icons16 = oclero::qlementine::icons::Icons16;
@@ -67,6 +69,31 @@ static QIcon makeThemedIcon(Icons16 id, const QSize& size = { 16, 16 }) {
   } else {
     return QIcon(svgPath);
   }
+}
+
+template<typename Callback>
+static QAction* addMenuAction(
+  QMenu* menu,
+  const QIcon& icon,
+  const QString& text,
+  const QKeySequence& shortcut,
+  QObject* context,
+  Callback&& callback) {
+  auto* action = menu->addAction(icon, text);
+  action->setShortcut(shortcut);
+  QObject::connect(action, &QAction::triggered, context, std::forward<Callback>(callback));
+  return action;
+}
+
+template<typename Callback>
+static QAction* addMenuAction(
+  QMenu* menu,
+  const QIcon& icon,
+  const QString& text,
+  QKeySequence::StandardKey shortcut,
+  QObject* context,
+  Callback&& callback) {
+  return addMenuAction(menu, icon, text, QKeySequence(shortcut), context, std::forward<Callback>(callback));
 }
 
 class DummyWorkspace : public QWidget {
@@ -197,24 +224,32 @@ struct ShowcaseWindow::Impl {
       auto* menu = menuBar->addMenu("File");
       {
         // TODO: Use the enum provided by Qt6 instead of strings for icon IDs.
-        menu->addAction(makeThemedIcon(Icons16::Document_New), "New", QKeySequence::StandardKey::New, cb);
-        menu->addAction(makeThemedIcon(Icons16::Document_Open), "Open...", QKeySequence::StandardKey::Open, cb);
+        addMenuAction(menu, makeThemedIcon(Icons16::Document_New), "New", QKeySequence::StandardKey::New, menu, cb);
+        addMenuAction(
+          menu, makeThemedIcon(Icons16::Document_Open), "Open...", QKeySequence::StandardKey::Open, menu, cb);
 
         auto* recentFilesMenu = menu->addMenu(makeThemedIcon(Icons16::Document_OpenRecent), "Recent Files");
         for (auto i = 0; i < 5; ++i) {
-          recentFilesMenu->addAction(
-            makeThemedIcon(Icons16::File_File), QString("Recent File %1").arg(i + 1), QKeySequence{}, cb);
+          addMenuAction(
+            recentFilesMenu, makeThemedIcon(Icons16::File_File), QString("Recent File %1").arg(i + 1), {}, menu, cb);
         }
 
         menu->addSeparator();
-        menu->addAction(makeThemedIcon(Icons16::Action_Save), "Save", QKeySequence::StandardKey::Save, cb);
-        menu->addAction(makeThemedIcon(Icons16::Action_Close), "Close", QKeySequence::StandardKey::Close, cb);
-        menu->addAction(makeThemedIcon(Icons16::Action_Print), "Print...", QKeySequence::StandardKey::Print, cb);
-        menu->addAction(makeThemedIcon(Icons16::Action_PrintPreview), "Print Preview...", QKeySequence{}, cb);
+        addMenuAction(menu, makeThemedIcon(Icons16::Action_Save), "Save", QKeySequence::StandardKey::Save, menu, cb);
+        addMenuAction(
+          menu, makeThemedIcon(Icons16::Action_Close), "Close", QKeySequence::StandardKey::Close, menu, cb);
+        addMenuAction(
+          menu, makeThemedIcon(Icons16::Action_Print), "Print...", QKeySequence::StandardKey::Print, menu, cb);
+        addMenuAction(menu, makeThemedIcon(Icons16::Action_PrintPreview), "Print Preview...", {}, menu, cb);
 
         menu->addSeparator();
-        menu->addAction(
-          makeThemedIcon(Icons16::Navigation_Settings), "Preferences...", QKeySequence::StandardKey::Preferences, cb);
+        addMenuAction(
+          menu,
+          makeThemedIcon(Icons16::Navigation_Settings),
+          "Preferences...",
+          QKeySequence::StandardKey::Preferences,
+          menu,
+          cb);
 
         menu->addSeparator();
 #ifdef Q_OS_WIN
@@ -223,7 +258,7 @@ struct ShowcaseWindow::Impl {
 #else
         const auto quitShortcut = QKeySequence(QKeySequence::Quit);
 #endif
-        menu->addAction(makeThemedIcon(Icons16::Action_Close), "Quit", quitShortcut, []() {
+        addMenuAction(menu, makeThemedIcon(Icons16::Action_Close), "Quit", quitShortcut, menu, []() {
           qApp->quit();
         });
       }
@@ -231,26 +266,35 @@ struct ShowcaseWindow::Impl {
     {
       auto* menu = menuBar->addMenu("Edit");
       {
-        menu->addAction(makeThemedIcon(Icons16::Action_Undo), "Undo", QKeySequence::StandardKey::Undo, cb);
-        menu->addAction(makeThemedIcon(Icons16::Action_Redo), "Redo", QKeySequence::StandardKey::Redo, cb);
+        addMenuAction(menu, makeThemedIcon(Icons16::Action_Undo), "Undo", QKeySequence::StandardKey::Undo, menu, cb);
+        addMenuAction(menu, makeThemedIcon(Icons16::Action_Redo), "Redo", QKeySequence::StandardKey::Redo, menu, cb);
 
         menu->addSeparator();
-        menu->addAction(makeThemedIcon(Icons16::Action_Cut), "Cut", QKeySequence::StandardKey::Cut, cb);
-        menu->addAction(makeThemedIcon(Icons16::Action_Copy), "Copy", QKeySequence::StandardKey::Copy, cb);
-        menu->addAction(makeThemedIcon(Icons16::Action_Paste), "Paste", QKeySequence::StandardKey::Paste, cb);
-        menu->addAction(makeThemedIcon(Icons16::Action_Trash), "Delete", QKeySequence::StandardKey::Delete, cb);
+        addMenuAction(menu, makeThemedIcon(Icons16::Action_Cut), "Cut", QKeySequence::StandardKey::Cut, menu, cb);
+        addMenuAction(menu, makeThemedIcon(Icons16::Action_Copy), "Copy", QKeySequence::StandardKey::Copy, menu, cb);
+        addMenuAction(
+          menu, makeThemedIcon(Icons16::Action_Paste), "Paste", QKeySequence::StandardKey::Paste, menu, cb);
+        addMenuAction(
+          menu, makeThemedIcon(Icons16::Action_Trash), "Delete", QKeySequence::StandardKey::Delete, menu, cb);
       }
     }
     {
       auto* menu = menuBar->addMenu("View");
       {
-        menu->addAction(makeThemedIcon(Icons16::Action_ZoomIn), "Zoom In", QKeySequence::StandardKey::ZoomIn, cb);
-        menu->addAction(makeThemedIcon(Icons16::Action_ZoomOut), "Zoom Out", QKeySequence::StandardKey::ZoomOut, cb);
-        menu->addAction(makeThemedIcon(Icons16::Action_ZoomFit), "Fit", QKeySequence{}, cb);
+        addMenuAction(
+          menu, makeThemedIcon(Icons16::Action_ZoomIn), "Zoom In", QKeySequence::StandardKey::ZoomIn, menu, cb);
+        addMenuAction(
+          menu, makeThemedIcon(Icons16::Action_ZoomOut), "Zoom Out", QKeySequence::StandardKey::ZoomOut, menu, cb);
+        addMenuAction(menu, makeThemedIcon(Icons16::Action_ZoomFit), "Fit", {}, menu, cb);
 
         menu->addSeparator();
-        menu->addAction(
-          makeThemedIcon(Icons16::Action_Fullscreen), "Full Screen", QKeySequence::StandardKey::FullScreen, cb);
+        addMenuAction(
+          menu,
+          makeThemedIcon(Icons16::Action_Fullscreen),
+          "Full Screen",
+          QKeySequence::StandardKey::FullScreen,
+          menu,
+          cb);
 
         if (themeManager) {
           auto* themeMenu = menu->addMenu("Theme");
@@ -282,8 +326,8 @@ struct ShowcaseWindow::Impl {
           }
 
           themeMenu->addSeparator();
-          themeMenu->addAction(
-            makeThemedIcon(Icons16::Action_Swap), "Switch Theme", { Qt::CTRL | Qt::Key_T }, [this]() {
+          addMenuAction(themeMenu, makeThemedIcon(Icons16::Action_Swap), "Switch Theme", { Qt::CTRL | Qt::Key_T },
+            themeMenu, [this]() {
               switchTheme();
             });
         }
@@ -292,8 +336,8 @@ struct ShowcaseWindow::Impl {
     {
       auto* menu = menuBar->addMenu("Help");
       {
-        menu->addAction(makeThemedIcon(Icons16::Misc_Mail), "Contact", QKeySequence{}, cb);
-        menu->addAction(makeThemedIcon(Icons16::Misc_Info), "About...", QKeySequence{}, [this]() {
+        addMenuAction(menu, makeThemedIcon(Icons16::Misc_Mail), "Contact", {}, menu, cb);
+        addMenuAction(menu, makeThemedIcon(Icons16::Misc_Info), "About...", {}, menu, [this]() {
           auto* dialog = new oclero::qlementine::AboutDialog(&owner);
           dialog->setWindowTitle(QString("About %1").arg(QApplication::applicationDisplayName()));
           dialog->setDescription("An application to showcase Qlementine's capabilities as a QStyle library.");
