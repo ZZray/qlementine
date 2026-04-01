@@ -6,23 +6,23 @@
   },
 
   "backgroundColorMain1": "#ffffff",
-  "backgroundColorMain2": "#fafbfc",
-  "backgroundColorMain3": "#f3f5f8",
-  "backgroundColorMain4": "#edf1f5",
+  "backgroundColorMain2": "#fcfdff",
+  "backgroundColorMain3": "#f4f7fb",
+  "backgroundColorMain4": "#edf2f7",
 
   "backgroundColorWorkspace": "#eef2f6",
-  "backgroundColorTabBar": "#f7f9fc",
+  "backgroundColorTabBar": "#eef3f8",
 
-  "borderColor": "#e5eaf3",
+  "borderColor": "#d9e2ec",
   "borderColorDisabled": "#f0f3f8",
-  "borderColorHovered": "#cfd7e3",
-  "borderColorPressed": "#bcc8d8",
+  "borderColorHovered": "#c2cedc",
+  "borderColorPressed": "#afbdd0",
 
   "focusColor": "#1677ff4d",
 
-  "neutralColor": "#eef2f7",
-  "neutralColorHovered": "#e6ebf2",
-  "neutralColorPressed": "#dde5ef",
+  "neutralColor": "#e7edf5",
+  "neutralColorHovered": "#dde6f1",
+  "neutralColorPressed": "#d2deeb",
   "neutralColorDisabled": "#f5f7fb",
 
   "primaryColor": "#1677ff",
@@ -60,9 +60,9 @@
   "semiTransparentColor3": "#1677ff18",
   "semiTransparentColor4": "#1677ff20",
 
-  "shadowColor1": "#10213a12",
-  "shadowColor2": "#10213a24",
-  "shadowColor3": "#10213a38",
+  "shadowColor1": "#10213a16",
+  "shadowColor2": "#10213a2a",
+  "shadowColor3": "#10213a3d",
 
   "statusColorError": "#e96b72",
   "statusColorErrorHovered": "#f47c83",
