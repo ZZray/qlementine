@@ -347,7 +347,7 @@ void AbstractItemListWidget::keyReleaseEvent(QKeyEvent* e) {
   }
 }
 
-void AbstractItemListWidget::enterEvent(QEnterEvent* e) {
+void AbstractItemListWidget::enterEvent(EnterEvent* e) {
   QWidget::enterEvent(e);
   update();
 }

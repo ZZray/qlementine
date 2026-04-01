@@ -13,14 +13,22 @@ set(PROJECT_COPYRIGHT "© Olivier Cléro, MIT License.")
 
 include(GNUInstallDirs)
 
-# Temporary hack to make it work with Qt6 <6.4.2 && >6.4.2 With Qt5, it was
-# "path/to/Qt/6.7.0/msvc2019_64/lib/cmake/Qt6", but with Qt6, it is now
-# "path/to/Qt/6.7.0/msvc2019_64".
-if(WIN32)
-  string(FIND "${CMAKE_PREFIX_PATH}" "/lib/cmake/Qt6" USING_Qt6_INDEX)
-  if(NOT ${USING_Qt6_INDEX} EQUAL -1)
-    string(REPLACE "/lib/cmake/Qt6" "" "${CMAKE_PREFIX_PATH}" "${CMAKE_PREFIX_PATH}")
-  endif()
+# Build options.
+option(QLEMENTINE_SANDBOX "Build the sandbox application." ON)
+option(QLEMENTINE_SHOWCASE "Build the showcase application." ON)
+
+# Accept both Qt root paths and lib/cmake/Qt{5,6} paths on Windows.
+if(WIN32 AND CMAKE_PREFIX_PATH)
+  set(_qlementine_prefix_path "${CMAKE_PREFIX_PATH}")
+  string(REPLACE "\\" "/" _qlementine_prefix_path "${_qlementine_prefix_path}")
+  foreach(_qlementine_qt_package Qt5 Qt6)
+    string(REPLACE "/lib/cmake/${_qlementine_qt_package}" "" _qlementine_normalized_prefix_path
+      "${_qlementine_prefix_path}")
+    if(NOT _qlementine_normalized_prefix_path STREQUAL _qlementine_prefix_path)
+      set(CMAKE_PREFIX_PATH "${_qlementine_normalized_prefix_path}")
+      break()
+    endif()
+  endforeach()
 endif()
 
 # Global flags.
@@ -37,10 +45,20 @@ endif()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 # Find Qt.
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Svg)
-qt_standard_project_setup(
-  # REQUIRES 6.9.0
-)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Widgets Svg)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets Svg)
+set(QLEMENTINE_QT_PACKAGE_PREFIX "Qt${QT_VERSION_MAJOR}")
+
+if(QT_VERSION_MAJOR EQUAL 6)
+  qt_standard_project_setup()
+endif()
+
+if(QLEMENTINE_SHOWCASE AND QT_VERSION_MAJOR LESS 6)
+  message(WARNING
+    "QLEMENTINE_SHOWCASE requires qlementine-icons, which is currently Qt6-only. "
+    "The showcase target will be disabled for this Qt5 build.")
+  set(QLEMENTINE_SHOWCASE OFF)
+endif()
 
 # The library.
 add_subdirectory(lib)

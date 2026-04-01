@@ -1,8 +1,10 @@
 @PACKAGE_INIT@
 
-include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
 include(CMakeFindDependencyMacro)
 
-find_dependency(Qt6 REQUIRED COMPONENTS Core Widgets Svg)
+set(QLEMENTINE_QT_VERSION_MAJOR "@QT_VERSION_MAJOR@")
+find_dependency(Qt${QLEMENTINE_QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets Svg)
+
+include("${CMAKE_CURRENT_LIST_DIR}/@PROJECT_NAME@Targets.cmake")
 
 check_required_components(@PROJECT_NAME@)

@@ -3,6 +3,8 @@
 
 #include <oclero/qlementine/utils/GeometryUtils.hpp>
 
+#include <cmath>
+
 namespace oclero::qlementine {
 bool isPointInRoundedRect(const QPointF& point, const QRectF& rect, qreal cornerRadius) {
   // Optimisations.

@@ -1821,7 +1821,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       const auto& clickPos = e->pos();
       const auto clickPosStr = QString("(%1, %2)").arg(clickPos.x()).arg(clickPos.y());
 
-      menu.addAction(QString("Pos: %1").arg(clickPosStr), Qt::CTRL | Qt::Key_A, &menu, cb);
+      auto* clickAction = menu.addAction(QString("Pos: %1").arg(clickPosStr));
+      clickAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_A));
+      QObject::connect(clickAction, &QAction::triggered, &menu, cb);
 
       const auto randomCount = getRandomInt(1, 10);
       for (auto i = 0; i < randomCount; ++i) {
@@ -1831,7 +1833,9 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           textList.append("A");
         }
 
-        menu.addAction(textList.join("") + QString(" %1").arg(i), Qt::ALT | Qt::SHIFT | Qt::Key_0 + i, &menu, cb);
+        auto* action = menu.addAction(textList.join("") + QString(" %1").arg(i));
+        action->setShortcut(QKeySequence(Qt::ALT | Qt::SHIFT | Qt::Key_0 + i));
+        QObject::connect(action, &QAction::triggered, &menu, cb);
       }
 
       // Show menu.

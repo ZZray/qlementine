@@ -2,6 +2,8 @@
 
 ## Installation
 
+Qlementine supports Qt5 and Qt6 from the same codebase. When configuring CMake, point `CMAKE_PREFIX_PATH` to either your Qt5 or Qt6 installation.
+
 1. Add the library as a dependency. Here is an example with CMake FetchContent. You may add it with another way such as vcpkg or from a regular installation.
 
    ```bash
@@ -15,6 +17,8 @@
    ```cmake
    target_link_libraries(your_project qlementine)
    ```
+
+If you are building the examples, `sandbox` works with Qt5 and Qt6, while `showcase` currently requires Qt6 because `qlementine-icons` is still Qt6-only.
 
 ## Usage in code
 

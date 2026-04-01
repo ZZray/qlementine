@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <oclero/qlementine/utils/PrimitiveUtils.hpp>
+#include <oclero/qlementine/QtCompat.hpp>
 #include <oclero/qlementine/utils/ImageUtils.hpp>
 #include <oclero/qlementine/utils/StateUtils.hpp>
 #include <oclero/qlementine/utils/FontUtils.hpp>
@@ -245,7 +246,7 @@ void drawRoundedRectBorder(
 
 void drawRoundedRectBorder(
   QPainter* p, QRect const& rect, QColor const& color, qreal const borderWidth, qreal const radius) {
-  drawRoundedRectBorder(p, rect.toRectF(), color, borderWidth, radius);
+  drawRoundedRectBorder(p, QRectF{ rect }, color, borderWidth, radius);
 }
 
 void drawRoundedRectBorder(
@@ -1375,7 +1376,7 @@ QPixmap getPixmap(
   if (QPixmapCache::find(cacheKey, &pixmap)) {
     return pixmap;
   }
-  pixmap = icon.pixmap(iconSize, devicePixelRatio, iconMode, iconState);
+  pixmap = qlementine::iconPixmap(icon, iconSize, devicePixelRatio, iconMode, iconState);
   QPixmapCache::insert(cacheKey, pixmap);
   return pixmap;
 }

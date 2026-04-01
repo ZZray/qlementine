@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <oclero/qlementine/QtCompat.hpp>
 #include <oclero/qlementine/widgets/RoundedFocusFrame.hpp>
 
 #include <QAbstractButton>
@@ -42,7 +43,7 @@ Q_SIGNALS:
 
 protected:
   void paintEvent(QPaintEvent* e) override;
-  void enterEvent(QEnterEvent* e) override;
+  void enterEvent(EnterEvent* e) override;
   void leaveEvent(QEvent* e) override;
   void changeEvent(QEvent* e) override;
   void focusInEvent(QFocusEvent* e) override;

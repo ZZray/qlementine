@@ -3,6 +3,8 @@
 #pragma once
 
 #include <QDialog>
+#include <QIcon>
+#include <QUrl>
 
 class QLabel;
 class QHBoxLayout;

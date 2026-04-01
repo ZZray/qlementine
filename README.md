@@ -9,13 +9,13 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](https://mit-license.org)
 [![CMake version](https://img.shields.io/badge/CMake-3.21.0+-064F8C?logo=cmake)](https://cmake.org)
 [![C++ version](https://img.shields.io/badge/C++-17-00599C?logo=++)](https://www.qt.io)
-[![Qt version](https://img.shields.io/badge/Qt-6.8.0+-41CD52?logo=qt)](https://www.qt.io)
+[![Qt version](https://img.shields.io/badge/Qt-5.15%2B%20%7C%206.8%2B-41CD52?logo=qt)](https://www.qt.io)
 
 [![Linux](https://github.com/oclero/qlementine/actions/workflows/linux.yml/badge.svg)](https://github.com/oclero/qlementine/actions/workflows/linux.yml)
 [![Linux](https://github.com/oclero/qlementine/actions/workflows/windows.yml/badge.svg)](https://github.com/oclero/qlementine/actions/workflows/windows.yml)
 [![Linux](https://github.com/oclero/qlementine/actions/workflows/macos.yml/badge.svg)](https://github.com/oclero/qlementine/actions/workflows/macos.yml)
 
-Modern QStyle for desktop Qt6 applications.
+Modern QStyle for desktop Qt5 and Qt6 applications.
 
 See [documentation](https://oclero.github.io/qlementine) for more information.
 
@@ -40,7 +40,7 @@ See [documentation](https://oclero.github.io/qlementine) for more information.
 
 - Windows, MacOS or Linux.
 - [CMake 3.21.0+](https://cmake.org/download)
-- [Qt 6.8.0+](https://www.qt.io/download-qt-installer)
+- [Qt 5.15+ or Qt 6.8.0+](https://www.qt.io/download-qt-installer)
 
 ## Features
 
@@ -53,6 +53,8 @@ This library contains:
 ## Usage
 
 See [documentation](docs/usage.md) for details. Basically, you just need to add Qlementine as a dependency with CMake, and call `QApplication::setStyle`.
+
+The core library and `sandbox` example support Qt5 and Qt6. The `showcase` target remains Qt6-only for now because it depends on `qlementine-icons`, which does not currently provide a Qt5-compatible CMake build.
 
 ## Creator
 

@@ -3,6 +3,7 @@
 
 #include <oclero/qlementine/style/QlementineStyle.hpp>
 
+#include <oclero/qlementine/QtCompat.hpp>
 #include <oclero/qlementine/resources/ResourceInitialization.hpp>
 #include <oclero/qlementine/animation/WidgetAnimator.hpp>
 #include <oclero/qlementine/animation/WidgetAnimationManager.hpp>
@@ -1872,8 +1873,8 @@ void QlementineStyle::drawControl(ControlElement ce, const QStyleOption* opt, QP
             const auto autoIconColor = this->autoIconColor(w);
             const auto colorize = autoIconColor != AutoIconColor::None;
             const auto iconMode = (optHeader->state & State_Enabled || colorize) ? QIcon::Normal : QIcon::Disabled;
-            const auto iconPixmap =
-              icon.pixmap({ iconExtent, iconExtent }, qlementine::getWindow(w)->devicePixelRatio(), iconMode);
+            const auto iconPixmap = qlementine::iconPixmap(
+              icon, { iconExtent, iconExtent }, qlementine::getWindow(w)->devicePixelRatio(), iconMode);
             const auto& colorizedPixmap = colorize ? qlementine::colorizePixmap(iconPixmap, fgColor) : iconPixmap;
             p->drawPixmap(iconRect, colorizedPixmap);
           }
@@ -3897,7 +3898,11 @@ QSize QlementineStyle::sizeFromContents(
 
           // Shortcut. NB: Some difficulties to understand what's going on. Qt changes the width so here's a hack.
           const auto hasShortcut = shortcut.length() > 0;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
           const auto reservedShortcutW = optMenuItem->reservedShortcutWidth;
+#else
+          const auto reservedShortcutW = 0;
+#endif
           const auto shortcutTextWidth = hasShortcut ? fm.boundingRect(shortcut).width() : 0;
           const auto shortcutW = std::max(reservedShortcutW, shortcutTextWidth);
 
@@ -4120,10 +4125,12 @@ int QlementineStyle::pixelMetric(PixelMetric m, const QStyleOption* opt, const Q
       return _impl->theme.iconSize.height();
 
     // LineEdit.
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     case PM_LineEditIconMargin:
       return _impl->theme.spacing;
     case PM_LineEditIconSize:
       return _impl->theme.iconSize.height();
+#endif
 
     // Frame.
     case PM_DefaultFrameWidth:

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <oclero/qlementine/utils/ColorUtils.hpp>
+#include <oclero/qlementine/QtCompat.hpp>
 
 #include <QRegularExpression>
 
@@ -173,7 +174,7 @@ std::optional<QColor> tryGetColorFromHexaString(QString const& str) {
 }
 
 std::optional<QColor> tryGetColorFromVariant(QVariant const& variant) {
-  const auto variantType = variant.typeId();
+  const auto variantType = qlementine::variantTypeId(variant);
 
   // Channel list ([RRR, GGG, BBB, AAA]).
   if (variantType == QMetaType::Type::QVariantList) {

@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <oclero/qlementine/QtCompat.hpp>
 #include <oclero/qlementine/style/Theme.hpp>
 #include <oclero/qlementine/style/QlementineStyleOption.hpp>
 
@@ -80,7 +81,7 @@ protected: // QWidget override.
   void keyPressEvent(QKeyEvent* e) override;
   void keyReleaseEvent(QKeyEvent* e) override;
   void mousePressEvent(QMouseEvent* e) override;
-  void enterEvent(QEnterEvent* e) override;
+  void enterEvent(EnterEvent* e) override;
   void leaveEvent(QEvent* e) override;
   void mouseReleaseEvent(QMouseEvent* e) override;
   void mouseMoveEvent(QMouseEvent* e) override;

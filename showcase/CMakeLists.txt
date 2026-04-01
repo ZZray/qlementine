@@ -27,7 +27,7 @@ set(SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/resources/showcase.qrc
 )
 
-qt_add_executable(${SHOWCASE_NAME}
+add_executable(${SHOWCASE_NAME}
   WIN32 MACOSX_BUNDLE
   ${SOURCES}
 )
@@ -36,6 +36,11 @@ target_link_libraries(${SHOWCASE_NAME}
   PUBLIC
     qlementine
     qlementine-icons
+)
+
+target_compile_options(${SHOWCASE_NAME}
+  PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/utf-8>
 )
 
 install(

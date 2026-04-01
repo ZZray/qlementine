@@ -4,7 +4,7 @@
 
 # Qlementine
 
-[Qlementine](https://github.com/oclero/qlementine) is a modern QStyle for desktop Qt6 applications, released under the MIT license.
+[Qlementine](https://github.com/oclero/qlementine) is a modern QStyle for desktop Qt5 and Qt6 applications, released under the MIT license.
 
 ## Library content
 
@@ -18,7 +18,7 @@ This library contains:
 
 - Windows, MacOS or Linux.
 - [CMake 3.21.0+](https://cmake.org/download)
-- [Qt 6.8.0+](https://www.qt.io/download-qt-installer)
+- [Qt 5.15+ or Qt 6.8.0+](https://www.qt.io/download-qt-installer)
 
 ## FAQ
 

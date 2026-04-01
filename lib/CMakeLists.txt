@@ -61,6 +61,7 @@ set(HEADERS
   ${CMAKE_CURRENT_SOURCE_DIR}/include/oclero/qlementine/animation/WidgetAnimationManager.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/oclero/qlementine/animation/WidgetAnimator.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/oclero/qlementine/Common.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/oclero/qlementine/QtCompat.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/oclero/qlementine/resources/ResourceInitialization.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/oclero/qlementine/style/Delegates.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/oclero/qlementine/style/QlementineStyle.hpp
@@ -113,7 +114,7 @@ set(RESOURCES
 )
 
 # Create target.
-qt_add_library(${PROJECT_NAME} STATIC
+add_library(${PROJECT_NAME} STATIC
   ${HEADERS}
   ${SOURCES}
   ${RESOURCES}
@@ -130,9 +131,9 @@ target_include_directories(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
   PUBLIC
-    Qt::Core
-    Qt::Widgets
-    Qt::Svg
+    ${QLEMENTINE_QT_PACKAGE_PREFIX}::Core
+    ${QLEMENTINE_QT_PACKAGE_PREFIX}::Widgets
+    ${QLEMENTINE_QT_PACKAGE_PREFIX}::Svg
 )
 
 set_target_properties(${PROJECT_NAME}
@@ -150,7 +151,7 @@ set_target_properties(${PROJECT_NAME}
 
 target_compile_options(${PROJECT_NAME}
   PRIVATE
-    $<$<CXX_COMPILER_ID:MSVC>:/MP /WX /W4>
+    $<$<CXX_COMPILER_ID:MSVC>:/MP /utf-8 /WX /W4>
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Werror>
 )
 
