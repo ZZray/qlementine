@@ -1267,6 +1267,24 @@ void QlementineStyle::drawControl(ControlElement ce, const QStyleOption* opt, QP
           const auto& radiuses =
             tabIsSelected ? RadiusesF(radius, radius, radius, radius) : RadiusesF(radius, radius, 0., 0.);
           drawTab(p, optTab->rect, radiuses, bgColor, drawShadow, _impl->theme.shadowColor2);
+        } else {
+          const auto tabIndex = getTabIndex(optTab, w);
+          const auto tabCount = getTabCount(w);
+          const auto isLastTab = tabCount > 0 && tabIndex == tabCount - 1;
+          const auto isAdjacentToSelected = optTab->selectedPosition != QStyleOptionTab::SelectedPosition::NotAdjacent;
+
+          if (!isLastTab && !isAdjacentToSelected) {
+            auto separatorColor = _impl->theme.borderColor;
+            separatorColor.setAlpha(160);
+
+            const auto x = optTab->rect.right();
+            const auto yPadding = std::max(6, _impl->theme.spacing + 2);
+            p->save();
+            p->setRenderHint(QPainter::Antialiasing, false);
+            p->setPen(QPen(separatorColor, 1, Qt::SolidLine, Qt::FlatCap));
+            p->drawLine(x, optTab->rect.top() + yPadding, x, optTab->rect.bottom() - yPadding);
+            p->restore();
+          }
         }
       }
       return;
